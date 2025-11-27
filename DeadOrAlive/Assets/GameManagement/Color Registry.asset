@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b0c859b147483459ac50226c5804a1, type: 3}
+  m_Name: Color Registry
+  m_EditorClassIdentifier: 
+  clothingColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.1043396, b: 1, a: 1}
+  - {r: 0, g: 0.8867924, b: 0.14622642, a: 1}
+  - {r: 1, g: 0.97235024, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  clothingColorNames:
+  - red
+  - blue
+  - green
+  - yellow
+  - white
+  - black
+  hairColors:
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0.6830188, g: 0.32276523, b: 0, a: 1}
+  - {r: 1, g: 0.872034, b: 0.42075467, a: 1}
+  hairColorNames:
+  - black
+  - brown
+  - blonde

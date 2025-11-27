@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Attribute Registry
   m_EditorClassIdentifier: 
   clothes:
-  - {fileID: 0}
-  hair: []
-  accessories: []
-  facialHair: []
+  - {fileID: 7530910457755780350, guid: 9836ca5cae422c4428330dd842b2ac29, type: 3}
+  - {fileID: 1823772251187094537, guid: dbfe2729724200944a0a9c614d7c2151, type: 3}
+  - {fileID: 1402270880284635970, guid: 86289f22c6a3e3d4caed62bdcc96cbe1, type: 3}
+  hair:
+  - {fileID: 9032949213041309004, guid: b0111464fbe15594380f9282d26bf5b9, type: 3}
+  - {fileID: 6669490391144048666, guid: c037e54ad807d604e88ece8e064cc7df, type: 3}
+  accessories:
+  - {fileID: 5837659584106524102, guid: 617b63b7c8763094890d12cfa5384d1f, type: 3}
+  - {fileID: 1137553452808102713, guid: 2d2f7b3e8cf88864da281ab8536e6117, type: 3}
+  facialHair:
+  - {fileID: 3554857751442307310, guid: 6256b366dfde37540ba8da8f27b56ab7, type: 3}
+  - {fileID: 1679656176049606562, guid: bd87a1471f5a4834e99e091db977c8ab, type: 3}

@@ -9,15 +9,4 @@ public class AttributeRegistry : ScriptableObject
     public List<GameObject> hair;
     public List<GameObject> accessories;
     public List<GameObject> facialHair;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
