@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d61db0d9b0c6343a21d31d8d815a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 673624643264019540}
   attributeType: 2
   attributeToken: long hair
   colorToken: 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PersonDocument : MonoBehaviour
 {
     public AttributeRegistry attributeRegistry;
+    public ColorRegistry colorRegistry;
     public List<string> tokens;
 
     [Header("Attribute Parents")]
@@ -47,6 +48,12 @@ public class PersonDocument : MonoBehaviour
             GameObject clothes = SetClothes(index);
             Attribute clothesAttribute = clothes.GetComponent<Attribute>();
             tokens.Add(clothesAttribute.GetAttributeToken());
+
+            // For color
+            int colorIndex = GetRandomIndex(colorRegistry.clothingColors.Count);
+            Color clothesColor = SetClothesColor(colorIndex);
+            clothesAttribute.SetColor(clothesColor);
+            tokens.Add(colorRegistry.clothingColorNames[colorIndex]);
         }
     }
 
@@ -60,6 +67,12 @@ public class PersonDocument : MonoBehaviour
             GameObject accessories = SetAccessory(index);
             Attribute accessoriesAttribute = accessories.GetComponent<Attribute>();
             tokens.Add(accessoriesAttribute.GetAttributeToken());
+
+            // For color
+            int colorIndex = GetRandomIndex(colorRegistry.clothingColors.Count);
+            Color clothesColor = SetClothesColor(colorIndex);
+            accessoriesAttribute.SetColor(clothesColor);
+            tokens.Add(colorRegistry.clothingColorNames[colorIndex]);
         }
 
         else if (numAccessories == 2)
@@ -68,9 +81,23 @@ public class PersonDocument : MonoBehaviour
             Attribute accessoriesAttribute1 = accessory1.GetComponent<Attribute>();
             tokens.Add(accessoriesAttribute1.GetAttributeToken());
 
+            // For color
+            int colorIndex1 = GetRandomIndex(colorRegistry.clothingColors.Count);
+            Color clothesColor1 = SetClothesColor(colorIndex1);
+            accessoriesAttribute1.SetColor(clothesColor1);
+            tokens.Add(colorRegistry.clothingColorNames[colorIndex1]);
+
+
+
             GameObject accessory2 = SetAccessory(1);
             Attribute accessoriesAttribute2 = accessory2.GetComponent<Attribute>();
             tokens.Add(accessoriesAttribute2.GetAttributeToken());
+
+            // For color
+            int colorIndex2 = GetRandomIndex(colorRegistry.clothingColors.Count);
+            Color clothesColor2 = SetClothesColor(colorIndex2);
+            accessoriesAttribute2.SetColor(clothesColor2);
+            tokens.Add(colorRegistry.clothingColorNames[colorIndex2]);
         }
     }
 
@@ -84,6 +111,12 @@ public class PersonDocument : MonoBehaviour
             GameObject facialHair = SetFacialHair(index);
             Attribute facialHairAttribute = facialHair.GetComponent<Attribute>();
             tokens.Add(facialHairAttribute.GetAttributeToken());
+
+            // For color
+            int colorIndex = GetRandomIndex(colorRegistry.hairColors.Count);
+            Color hairColor = SetHairColor(colorIndex);
+            facialHairAttribute.SetColor(hairColor);
+            tokens.Add(colorRegistry.hairColorNames[colorIndex]);
         }
 
         else if (numFacialHair == 2)
@@ -92,9 +125,23 @@ public class PersonDocument : MonoBehaviour
             Attribute facialHairAttribute1 = facialHair1.GetComponent<Attribute>();
             tokens.Add(facialHairAttribute1.GetAttributeToken());
 
+            // For color
+            int colorIndex1 = GetRandomIndex(colorRegistry.hairColors.Count);
+            Color hairColor1 = SetHairColor(colorIndex1);
+            facialHairAttribute1.SetColor(hairColor1);
+            tokens.Add(colorRegistry.hairColorNames[colorIndex1]);
+
+
+
             GameObject facialHair2 = SetFacialHair(1);
             Attribute facialHairAttribute2 = facialHair2.GetComponent<Attribute>();
             tokens.Add(facialHairAttribute2.GetAttributeToken());
+
+            // For color
+            int colorIndex2 = GetRandomIndex(colorRegistry.hairColors.Count);
+            Color hairColor2 = SetHairColor(colorIndex2);
+            facialHairAttribute2.SetColor(hairColor2);
+            tokens.Add(colorRegistry.hairColorNames[colorIndex2]);
         }
     }
 
@@ -112,6 +159,12 @@ public class PersonDocument : MonoBehaviour
             GameObject hair = SetHair(index);
             Attribute hairAttribute = hair.GetComponent<Attribute>();
             tokens.Add(hairAttribute.GetAttributeToken());
+
+            // For color
+            int colorIndex = GetRandomIndex(colorRegistry.hairColors.Count);
+            Color hairColor = SetHairColor(colorIndex);
+            hairAttribute.SetColor(hairColor);
+            tokens.Add(colorRegistry.hairColorNames[colorIndex]);
         }
     }
 
@@ -150,5 +203,17 @@ public class PersonDocument : MonoBehaviour
         GameObject facialHairInstance = Instantiate(facialHair, facialHairParent);
 
         return facialHairInstance;
+    }
+
+    public Color SetClothesColor(int colorIndex)
+    {
+        Color color = colorRegistry.clothingColors[colorIndex];
+        return color;
+    }
+
+    public Color SetHairColor(int colorIndex)
+    {
+        Color color = colorRegistry.hairColors[colorIndex];
+        return color;
     }
 }

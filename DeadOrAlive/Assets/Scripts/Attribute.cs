@@ -21,6 +21,12 @@ public class Attribute : MonoBehaviour
     public void SetColor(Color color)
     {
         this.color = color;
+        SetSpriteColor(color);
+    }
+
+    public void SetSpriteColor(Color color)
+    {
+        spriteRenderer.color = color;
     }
 
     public Color GetColor()
