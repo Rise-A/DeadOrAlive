@@ -78,7 +78,7 @@ public class PersonDocument : MonoBehaviour
         // }
     }
 
-    void OnMouseDown()
+    public void OnPersonClicked()
     {
         isHidden = false;
 
@@ -91,6 +91,11 @@ public class PersonDocument : MonoBehaviour
         if (!isWanted)
         {
             roundManager.SubtractFromTimer(3);
+        }
+
+        else
+        {
+            roundManager.AddToTimer(5);
         }
     }
 

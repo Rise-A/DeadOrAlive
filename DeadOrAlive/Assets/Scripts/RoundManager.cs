@@ -32,6 +32,7 @@ public class RoundManager : MonoBehaviour
     // public Transform facialHairParentUI;
 
     [Header("Round Info")]
+    public float roundOneMaxTime;
     public float maxTimeToStart;
     [SerializeField] private int currentRoundNum;
     [SerializeField] private float roundTimeLeft;
@@ -39,13 +40,10 @@ public class RoundManager : MonoBehaviour
     [Header("Conditions")]
     [SerializeField] private bool readyToStartRound;
     [SerializeField] private bool timerRunning;
-    [SerializeField] private bool isGameOver;
 
     // Start is called before the first frame update
     void Start()
     {
-        isGameOver = false;
-
         SetSpawnArea(spawnAreaCollider);
         spawnAreaCenter = spawnArea.center;
 
@@ -87,6 +85,7 @@ public class RoundManager : MonoBehaviour
         currentRoundNum++;
         SpawnPeople(minPeopleToGenerate, maxPeopleToGenerate);
         AssignPersonWanted();
+        AddWantedPersonToPoster();
     }
 
     public void SpawnPersonInRandomPosition(Bounds bounds, GameObject person)
@@ -123,10 +122,14 @@ public class RoundManager : MonoBehaviour
         PauseTimer();
     }
 
+    public void ResetRounds()
+    {
+        currentRoundNum = 1;
+        UpdateRound(currentRoundNum);
+    }
+
     // Wanted Poster Methods
     ///////////////////////
-    
-    // FIXME: Might be only getting the default person document, as opposed to the wanted person? 
     public void AddWantedPersonToPoster()
     {
         PersonDocument wantedPerson = GetWantedPerson();
@@ -187,6 +190,11 @@ public class RoundManager : MonoBehaviour
     {
         timerRunning = false;
     }
+
+    public void ResetTimerToRoundOne()
+    {
+        roundTimeLeft = roundOneMaxTime;
+    }
     public void RunTimer()
     {
         roundTimeLeft -= Time.deltaTime;
@@ -195,7 +203,6 @@ public class RoundManager : MonoBehaviour
         if (roundedTime < 0)
         {
             roundedTime = 0;
-            isGameOver = true;
         }
         
         UpdateTime(roundedTime);
@@ -212,6 +219,13 @@ public class RoundManager : MonoBehaviour
         Invoke(nameof(HideUpdatedTime), 0.75f);
     }
 
+    public void AddToTimer(int time)
+    {
+        roundTimeLeft += time;
+        DisplayUpdatedTime("+" + time.ToString(), Color.green);
+        Invoke(nameof(HideUpdatedTime), 0.75f);
+    }
+
     public void DisplayUpdatedTime(string time, Color color)
     {
         updatedTimeText.text = time;
@@ -221,5 +235,10 @@ public class RoundManager : MonoBehaviour
     public void HideUpdatedTime()
     {
         updatedTimeText.text = "";
+    }
+
+    public float GetRoundTimeLeft()
+    {
+        return roundTimeLeft;
     }
 }
