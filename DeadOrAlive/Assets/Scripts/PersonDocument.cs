@@ -34,9 +34,14 @@ public class PersonDocument : MonoBehaviour
     // [Header("Other")]
     // public float destroyTimer;
 
-    void Start()
+    void Awake()
     {
         SetAttributes();
+    }
+
+    void Start()
+    {
+        // SetAttributes();
         isHidden = true;
         hasBeenClicked = false;
 
@@ -51,6 +56,14 @@ public class PersonDocument : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     foreach (PersonSprite ps in personSprites)
+        //     {
+        //         Debug.Log(ps.sprite.name);
+        //         Debug.Log(ps.color);
+        //     }
+        // }
         // if (isHidden)
         // {
         //     personSprite.SetActive(false);
@@ -73,6 +86,11 @@ public class PersonDocument : MonoBehaviour
         {
             Invoke(nameof(UnhidePersonSprite), 0f);
             hasBeenClicked = true;
+        }
+
+        if (!isWanted)
+        {
+            roundManager.SubtractFromTimer(3);
         }
     }
 
@@ -276,6 +294,10 @@ public class PersonDocument : MonoBehaviour
             Color hairColor = SetHairColor(colorIndex);
             hairAttribute.SetColor(hairColor);
             tokens.Add(colorRegistry.hairColorNames[colorIndex]);
+
+            // Adding to sprite list
+            PersonSprite ps = new(hairAttribute.spriteRenderer.sprite, hairAttribute.GetColor());
+            personSprites.Add(ps);
         }
     }
 
@@ -335,7 +357,10 @@ public class PersonDocument : MonoBehaviour
 
     // Other Methods
     ////////////////
-
+    public List<PersonSprite> GetPersonSprites()
+    {
+        return personSprites;
+    }
     
 }
 

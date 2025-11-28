@@ -18,10 +18,18 @@ public class RoundManager : MonoBehaviour
     [Header("References")]
     public TextMeshProUGUI roundNumberText;
     public TextMeshProUGUI timeLeftText;
+    public TextMeshProUGUI updatedTimeText;
     public Collider2D spawnAreaCollider;
     [SerializeField] private Bounds spawnArea;
     [SerializeField] private Vector2 spawnAreaCenter;
-    public Transform wantedPoster;
+
+    [Header("Wanted Poster")]
+    public Transform wantedPersonPoster;
+    public GameObject attribute_UI;
+    // public Transform clothesParentUI;
+    // public Transform hairParentUI;
+    // public Transform accessoriesParentUI;
+    // public Transform facialHairParentUI;
 
     [Header("Round Info")]
     public float maxTimeToStart;
@@ -49,6 +57,8 @@ public class RoundManager : MonoBehaviour
 
         // AssignPersonWanted();
         StartNewRound(4, 8);
+
+        AddWantedPersonToPoster();
         
         currentRoundNum = 1;
         UpdateRound(currentRoundNum);
@@ -63,11 +73,6 @@ public class RoundManager : MonoBehaviour
         {
             RunTimer();
         }
-
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-        //     SubtractFromTimer(2);
-        // }
     }
 
     public void SetSpawnArea(Collider2D collider2D)
@@ -96,7 +101,7 @@ public class RoundManager : MonoBehaviour
 
     public void SpawnPeople(int minPeopleToGenerate, int maxPeopleToGenerate)
     {
-        int numPeopleToSpawn = Random.Range(minPeopleToGenerate, maxPeopleToGenerate);
+        int numPeopleToSpawn = Random.Range(minPeopleToGenerate, maxPeopleToGenerate + 1);
         int peopleSpawned = 0;
 
         while (peopleSpawned < numPeopleToSpawn)
@@ -113,8 +118,46 @@ public class RoundManager : MonoBehaviour
         personInstance.SetWantedStatus(true);
     }
 
+    public void PauseRound()
+    {
+        PauseTimer();
+    }
+
     // Wanted Poster Methods
     ///////////////////////
+    
+    // FIXME: Might be only getting the default person document, as opposed to the wanted person? 
+    public void AddWantedPersonToPoster()
+    {
+        PersonDocument wantedPerson = GetWantedPerson();
+        List<PersonSprite> wantedPersonSprites = wantedPerson.GetPersonSprites();
+
+        GameObject spriteLayer = attribute_UI;
+
+        foreach (PersonSprite ps in wantedPersonSprites)
+        {
+            GameObject spriteLayerInstance = Instantiate(spriteLayer, wantedPersonPoster);
+            Image image = spriteLayerInstance.GetComponent<Image>();
+
+            image.sprite = ps.sprite;
+            image.color = ps.color;
+        }
+    }
+
+    public PersonDocument GetWantedPerson()
+    {
+        foreach (GameObject person in peopleList)
+        {
+            PersonDocument personInstance = person.GetComponent<PersonDocument>();
+            if (personInstance.GetWantedStatus() == true)
+            {
+                return personInstance;
+            }
+        }
+
+        Debug.Log("Wanted person not found");
+        return null;
+    }
 
     public void UpdateRound(int round)
     {
@@ -165,5 +208,18 @@ public class RoundManager : MonoBehaviour
     public void SubtractFromTimer(int time)
     {
         roundTimeLeft -= time;
+        DisplayUpdatedTime("-" + time.ToString(), Color.red);
+        Invoke(nameof(HideUpdatedTime), 0.75f);
+    }
+
+    public void DisplayUpdatedTime(string time, Color color)
+    {
+        updatedTimeText.text = time;
+        updatedTimeText.color = color;
+    }
+
+    public void HideUpdatedTime()
+    {
+        updatedTimeText.text = "";
     }
 }
