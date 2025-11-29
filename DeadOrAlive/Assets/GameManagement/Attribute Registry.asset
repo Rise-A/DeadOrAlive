@@ -25,3 +25,22 @@ MonoBehaviour:
   facialHair:
   - {fileID: 3554857751442307310, guid: 6256b366dfde37540ba8da8f27b56ab7, type: 3}
   - {fileID: 1679656176049606562, guid: bd87a1471f5a4834e99e091db977c8ab, type: 3}
+  allAttributes:
+  - jacket
+  - suit
+  - shirt
+  - long
+  - short
+  - hair
+  - glasses
+  - hat
+  - beard
+  - mustache
+  - red
+  - blue
+  - green
+  - yellow
+  - white
+  - black
+  - brown
+  - blonde

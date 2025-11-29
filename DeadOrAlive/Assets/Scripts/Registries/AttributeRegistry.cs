@@ -9,4 +9,5 @@ public class AttributeRegistry : ScriptableObject
     public List<GameObject> hair;
     public List<GameObject> accessories;
     public List<GameObject> facialHair;
+    public List<string> allAttributes;
 }

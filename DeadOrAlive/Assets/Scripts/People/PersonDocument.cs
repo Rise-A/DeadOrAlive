@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Unity.VisualStudio.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
+using kNN.CosineSimilarity;
+using kNN.BagOfWords;
 
 public class PersonDocument : MonoBehaviour
 {
@@ -13,10 +15,12 @@ public class PersonDocument : MonoBehaviour
     [Header("References")]
     public Collider2D personHitbox;
     public List<string> tokens;
+    public List<int> vectorizedTokens;
     public List<PersonSprite> personSprites;
     // public List<GameObject> attributeGameObjects;
     public GameObject personSprite;
     public GameObject hiddenSprite;
+    public GameObject targetCircle;
     public RoundManager roundManager;
 
     [Header("Attribute Parents")]
@@ -30,9 +34,12 @@ public class PersonDocument : MonoBehaviour
     [SerializeField] private bool isWanted;
     [SerializeField] private bool isHidden;
     [SerializeField] private bool hasBeenClicked;
+    [SerializeField] public bool canBeClicked;
 
-    // [Header("Other")]
-    // public float destroyTimer;
+    [Header("Other")]
+    public double cosineSimilarityScore;
+    [SerializeField] private int minTimeToSubtract = 5;
+    [SerializeField] private int currentTimeToSubtract;
 
     void Awake()
     {
@@ -42,8 +49,14 @@ public class PersonDocument : MonoBehaviour
     void Start()
     {
         // SetAttributes();
+        vectorizedTokens = BagOfWords.VectorizeQuery(tokens, attributeRegistry.allAttributes);
+
         isHidden = true;
         hasBeenClicked = false;
+        canBeClicked = true;
+        currentTimeToSubtract = minTimeToSubtract;
+
+        targetCircle.SetActive(false);
 
         if (isHidden)
         {
@@ -80,22 +93,26 @@ public class PersonDocument : MonoBehaviour
 
     public void OnPersonClicked()
     {
-        isHidden = false;
-
-        if (!isHidden && !hasBeenClicked)
+        if (canBeClicked)
         {
-            Invoke(nameof(UnhidePersonSprite), 0f);
-            hasBeenClicked = true;
-        }
+            isHidden = false;
+            canBeClicked = false;
 
-        if (!isWanted)
-        {
-            roundManager.SubtractFromTimer(3);
-        }
+            if (!isHidden && !hasBeenClicked)
+            {
+                Invoke(nameof(UnhidePersonSprite), 0f);
+                hasBeenClicked = true;
+            }
 
-        else
-        {
-            roundManager.AddToTimer(5);
+            if (!isWanted)
+            {
+                roundManager.SubtractFromTimer(currentTimeToSubtract);
+            }
+
+            else
+            {
+                roundManager.AddToTimer(5);
+            }   
         }
     }
 
@@ -140,6 +157,16 @@ public class PersonDocument : MonoBehaviour
     public void SetWantedStatus(bool status)
     {
         isWanted = status;
+    }
+
+    public void EnableTargetCircle()
+    {
+        targetCircle.SetActive(true);
+    }
+
+    public void DisableTargetCircle()
+    {
+        targetCircle.SetActive(false);
     }
 
     // Methods to add attributes

@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using kNN.CosineSimilarity;
 
 public class RoundManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class RoundManager : MonoBehaviour
     public TextMeshProUGUI timeLeftText;
     public TextMeshProUGUI updatedTimeText;
     public Collider2D spawnAreaCollider;
+    public UserTypingInput userTypingInput;
     [SerializeField] private Bounds spawnArea;
     [SerializeField] private Vector2 spawnAreaCenter;
 
@@ -78,6 +80,59 @@ public class RoundManager : MonoBehaviour
         spawnArea = collider2D.bounds;
     }
 
+    // kNN Search Methods
+    /////////////////////
+
+    public void DisplayMostSimilarScores(List<int> vectorizedQuery)
+    {
+        CalculateSimilarities(vectorizedQuery);
+
+        double highestScore = 0;
+        GameObject personWithHighestScore = null;
+
+        foreach (GameObject person in peopleList)
+        {
+            if (person != null)
+            {
+                PersonDocument personInstance = person.GetComponent<PersonDocument>();
+                double personSimilarityScore = personInstance.cosineSimilarityScore;
+
+                if (highestScore < personSimilarityScore)
+                {
+                    highestScore = personSimilarityScore;
+                    personWithHighestScore = person;
+                }
+            }
+        }
+
+        if (personWithHighestScore != null)
+        {
+            PersonDocument personWithHighestScoreInstance = personWithHighestScore.GetComponent<PersonDocument>();
+            personWithHighestScoreInstance.EnableTargetCircle();
+        }
+    }
+
+    public void CalculateSimilarities(List<int> vectorizedQuery)
+    {
+        double personMagnitude;
+        double queryMagnitude = CosineSimilarity.CalculateMagnitude(vectorizedQuery);
+        int dotProduct;
+        double cosineSimilarity;
+
+        foreach (GameObject person in peopleList)
+        {
+            if (person != null)
+            {
+                PersonDocument personInstance = person.GetComponent<PersonDocument>();
+                personMagnitude = CosineSimilarity.CalculateMagnitude(personInstance.vectorizedTokens);
+                dotProduct = CosineSimilarity.CalculateDotProduct(personInstance.vectorizedTokens, vectorizedQuery);
+                cosineSimilarity = CosineSimilarity.CalculateCosineSimilarity(dotProduct, queryMagnitude, personMagnitude);
+
+                personInstance.cosineSimilarityScore = cosineSimilarity;
+            }
+        }
+    }
+
     // Round Methods
     ////////////////
     public void StartNewRound(int minPeopleToGenerate, int maxPeopleToGenerate)
@@ -115,6 +170,15 @@ public class RoundManager : MonoBehaviour
         int wantedIndex = Random.Range(0, peopleList.Count);
         PersonDocument personInstance = peopleList[wantedIndex].GetComponent<PersonDocument>();
         personInstance.SetWantedStatus(true);
+    }
+
+    public void DisableAllPeopleCircles()
+    {
+        foreach (GameObject person in peopleList)
+        {
+            PersonDocument personInstance = person.GetComponent<PersonDocument>();
+            personInstance.DisableTargetCircle();
+        }
     }
 
     public void PauseRound()
@@ -177,6 +241,15 @@ public class RoundManager : MonoBehaviour
             Destroy(person);
         }
         peopleList.Clear();
+    }
+
+    public void MakePeopleUnclickable()
+    {
+        foreach (GameObject person in peopleList)
+        {
+            PersonDocument personInstance = person.GetComponent<PersonDocument>();
+            personInstance.canBeClicked = false;
+        }
     }
 
     // Timer Methods
