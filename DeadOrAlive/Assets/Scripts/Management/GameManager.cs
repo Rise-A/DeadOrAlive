@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 
         startButton.onClick.AddListener(StartGame);
         retryButton.onClick.AddListener(ResetGame);
+        quitButton.onClick.AddListener(QuitGame);
     }
 
     // Update is called once per frame
@@ -81,5 +82,10 @@ public class GameManager : MonoBehaviour
         roundManager.ClearPeople();
 
         StartGame();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
