@@ -204,8 +204,10 @@ public class RoundManager : MonoBehaviour
     {
         foreach (GameObject person in peopleList)
         {
-            PersonDocument personInstance = person.GetComponent<PersonDocument>();
-            personInstance.DisableTargetCircle();
+            if (person != null){
+                PersonDocument personInstance = person.GetComponent<PersonDocument>();
+                personInstance.DisableTargetCircle();
+            }
         }
     }
 

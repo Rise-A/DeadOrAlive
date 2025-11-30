@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using kNN.BagOfWords;
-using kNN.CosineSimilarity;
 using UnityEngine;
-using kNN.CosineSimilarity;
-using kNN.BagOfWords;
 
 public class QueryHandler : MonoBehaviour
 {
