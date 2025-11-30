@@ -522,7 +522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &224107835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +584,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &224107838
 RectTransform:
@@ -1675,8 +1675,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63d14657c49a06c4f949ed60e0abab7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minPeopleToGenerate: 0
-  maxPeopleToGenerate: 0
+  minPeopleToGenerate: 4
+  maxPeopleToGenerate: 8
   person: {fileID: 1983587888627450496, guid: 187b58c153ddf044db352d8d3588abc2, type: 3}
   peopleList: []
   roundNumberText: {fileID: 380559925}
@@ -1692,7 +1692,10 @@ MonoBehaviour:
   attribute_UI: {fileID: 5066299839457186499, guid: 4874c566083cd854dbe838b7ac51c3c4, type: 3}
   roundOneMaxTime: 0
   maxTimeToStart: 60
+  delayBetweenRounds: 2
   currentRoundNum: 0
+  timeToAdd: 10
+  timeToSubtract: 5
   roundTimeLeft: 0
   readyToStartRound: 0
   timerRunning: 0
@@ -2644,7 +2647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Type your query here...
+  m_text: 'Type query (ex: guy with black shirt)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2671,8 +2674,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2860,7 +2863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "POST person-index/_search\r\n                  \r\n{\r\n  \"size\" : N,\r\n 
+  m_text: "POST person-index/_search\r\n                  \r\n{\r\n  \"size\" : 1,\r\n 
     \"query\" : {\r\n    \"knn\": {\r\n      \"field\": \"person-vector\",\r\n     
     \"query_vector\": \n    }\r\n  }\r\n}\r\n"
   m_isRightToLeft: 0
@@ -3105,10 +3108,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224107838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076294, y: 93}
-  m_SizeDelta: {x: 383.4022, y: 40.2619}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 93}
+  m_SizeDelta: {x: -186.59781, y: -279.7381}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1221908178
 MonoBehaviour:
@@ -3373,10 +3376,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224107838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 546, y: 307.2}
+  m_SizeDelta: {x: 0, y: 0.7999878}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1323510394
 MonoBehaviour:
@@ -4379,10 +4382,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1895769592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 546, y: 307.2}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_SizeDelta: {x: 0, y: 0.7999878}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1863593347
 MonoBehaviour:
@@ -4502,7 +4505,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1895769592
 RectTransform:

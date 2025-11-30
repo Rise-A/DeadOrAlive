@@ -199,6 +199,7 @@ MonoBehaviour:
   colorRegistry: {fileID: 11400000, guid: f3e8e32427474c9438d9318fc6008dac, type: 2}
   personHitbox: {fileID: 8408981903734608685}
   tokens: []
+  vectorizedTokens: 
   personSprites:
   - sprite: {fileID: 21300000, guid: 484402b6a9d207d448895e556a42335c, type: 3}
     color: {r: 1, g: 1, b: 1, a: 0}
@@ -215,8 +216,7 @@ MonoBehaviour:
   isHidden: 0
   hasBeenClicked: 0
   canBeClicked: 0
-  minTimeToSubtract: 5
-  currentTimeToSubtract: 0
+  cosineSimilarityScore: 0
 --- !u!70 &-8908219619262052887
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -457,7 +457,7 @@ Transform:
   m_GameObject: {fileID: 7059145208677356277}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -1.2}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -495,8 +495,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.22469261}
-  m_Size: {x: 2.28, y: 4.5364676}
+  m_Offset: {x: 0, y: -0.05}
+  m_Size: {x: 0.68, y: 1.34}
   m_Direction: 0
 --- !u!114 &574286981446345995
 MonoBehaviour:

@@ -38,8 +38,6 @@ public class PersonDocument : MonoBehaviour
 
     [Header("Other")]
     public double cosineSimilarityScore;
-    [SerializeField] private int minTimeToSubtract = 5;
-    [SerializeField] private int currentTimeToSubtract;
 
     void Awake()
     {
@@ -54,7 +52,6 @@ public class PersonDocument : MonoBehaviour
         isHidden = true;
         hasBeenClicked = false;
         canBeClicked = true;
-        currentTimeToSubtract = minTimeToSubtract;
 
         targetCircle.SetActive(false);
 
@@ -106,12 +103,17 @@ public class PersonDocument : MonoBehaviour
 
             if (!isWanted)
             {
-                roundManager.SubtractFromTimer(currentTimeToSubtract);
+                roundManager.SubtractFromTimer(roundManager.timeToSubtract);
             }
-
             else
             {
-                roundManager.AddToTimer(5);
+                roundManager.AddToTimer(roundManager.timeToAdd);
+                // Invoke(nameof(roundManager.StartNewRound), roundManager.delayBetweenRounds);
+
+                //roundManager.StartNewRound(roundManager.minPeopleToGenerate, roundManager.maxPeopleToGenerate);
+
+                // FIXME: doesn't work. new round doesn't start
+                StartCoroutine(StartNewRoundAfterDelay(roundManager.minPeopleToGenerate, roundManager.maxPeopleToGenerate));
             }   
         }
     }
@@ -129,7 +131,14 @@ public class PersonDocument : MonoBehaviour
 
         if (hasBeenClicked && destroyPersonOnClick)
         {
-            Invoke(nameof(DestroyPerson), 1.5f);
+            if (isWanted)
+            {
+                Invoke(nameof(DestroyPerson), roundManager.delayBetweenRounds);
+            }
+            else
+            {
+                Invoke(nameof(DestroyPerson), 0.8f);   
+            }
         }
     }
 
@@ -392,6 +401,13 @@ public class PersonDocument : MonoBehaviour
     public List<PersonSprite> GetPersonSprites()
     {
         return personSprites;
+    }
+
+    private IEnumerator StartNewRoundAfterDelay(int minPeopleToGenerate, int maxPeopleToGenerate)
+    {
+        Debug.Log("coroutine started");
+        yield return new WaitForSeconds(0.8f);
+        roundManager.StartNewRound(minPeopleToGenerate, maxPeopleToGenerate);
     }
     
 }

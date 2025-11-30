@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,13 +29,14 @@ public class GameManager : MonoBehaviour
     {
         gameOverScreen.SetActive(false);
 
+        startButton.onClick.AddListener(StartGame);
         retryButton.onClick.AddListener(ResetGame);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (roundManager.GetRoundTimeLeft() <= 0)
+        if (roundManager.GetRoundTimeLeft() <= 0 && titleScreen.activeSelf == false)
         {
             GameOver();
         }
@@ -54,11 +56,21 @@ public class GameManager : MonoBehaviour
         titleScreen.SetActive(false);
         gameOverScreen.SetActive(false);
         gamePaused = false;
+
+        // Starting round
+        roundManager.currentRoundNum = 0;
+        roundManager.StartNewRound(roundManager.minPeopleToGenerate, roundManager.maxPeopleToGenerate);
+
+        roundManager.AddWantedPersonToPoster();
+
+        roundManager.timerRunning = true;
+        roundManager.roundTimeLeft = roundManager.maxTimeToStart;
     }
 
     public void GameOver()
     {
         gameOverScreen.SetActive(true);
+        roundManager.MakePeopleUnclickable();
         gamePaused = true;
     }
 

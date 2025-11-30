@@ -36,12 +36,15 @@ public class RoundManager : MonoBehaviour
     [Header("Round Info")]
     public float roundOneMaxTime;
     public float maxTimeToStart;
-    [SerializeField] private int currentRoundNum;
-    [SerializeField] private float roundTimeLeft;
+    public float delayBetweenRounds = 0.8f;
+    public int currentRoundNum;
+    public int timeToAdd;
+    public int timeToSubtract;
+    [SerializeField] public float roundTimeLeft;
 
     [Header("Conditions")]
     [SerializeField] private bool readyToStartRound;
-    [SerializeField] private bool timerRunning;
+    [SerializeField] public bool timerRunning;
 
     // Start is called before the first frame update
     void Start()
@@ -49,22 +52,13 @@ public class RoundManager : MonoBehaviour
         SetSpawnArea(spawnAreaCollider);
         spawnAreaCenter = spawnArea.center;
 
-        // SpawnPersonInRandomPosition(spawnArea, person);
-        // SpawnPeople(4, 8);
+        // currentRoundNum = 0;
+        // StartNewRound(4, 8);
 
-        // roundNumberText.text = currentRoundNum.ToString();
-        // timeLeftText.text = roundTimeLeft.ToString();
+        // AddWantedPersonToPoster();
 
-        // AssignPersonWanted();
-        StartNewRound(4, 8);
-
-        AddWantedPersonToPoster();
-        
-        currentRoundNum = 1;
-        UpdateRound(currentRoundNum);
-
-        timerRunning = true;
-        roundTimeLeft = maxTimeToStart;
+        // timerRunning = true;
+        // roundTimeLeft = maxTimeToStart;
     }
 
     void Update()
@@ -73,6 +67,12 @@ public class RoundManager : MonoBehaviour
         {
             RunTimer();
         }
+
+        // FOR TESTING PURPOSES, DELETE LATER
+        // if (Input.GetKeyDown(KeyCode.M))
+        // {
+        //     StartNewRound(4, 8);
+        // }
     }
 
     public void SetSpawnArea(Collider2D collider2D)
@@ -137,9 +137,37 @@ public class RoundManager : MonoBehaviour
     ////////////////
     public void StartNewRound(int minPeopleToGenerate, int maxPeopleToGenerate)
     {
-        currentRoundNum++;
-        SpawnPeople(minPeopleToGenerate, maxPeopleToGenerate);
-        AssignPersonWanted();
+        currentRoundNum++; // updating round info
+        UpdateRoundNumber(currentRoundNum);
+
+        int currentMinGenerate = minPeopleToGenerate;
+        int currentMaxGenerate = maxPeopleToGenerate;
+
+        if (currentRoundNum == 10)
+        {
+            currentMinGenerate += 2;
+            currentMaxGenerate += 2;
+            timeToSubtract += 2;
+        }
+        else if (currentRoundNum == 20)
+        {
+            currentMinGenerate += 2;
+            currentMaxGenerate += 2;
+            timeToSubtract += 2;
+        }
+        else if (currentRoundNum == 30)
+        {
+            currentMinGenerate += 2;
+            currentMaxGenerate += 2;
+            timeToSubtract += 2;
+        }
+
+        ClearPeople(); // clear all old people
+        ClearWantedPoster(); // clears wanted poster
+
+        SpawnPeople(currentMinGenerate, currentMaxGenerate); // generate new people
+
+        AssignPersonWanted(); // Assign wanted person
         AddWantedPersonToPoster();
     }
 
@@ -181,6 +209,11 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    public void UpdateRoundNumber(int round)
+    {
+        roundNumberText.text = round.ToString();
+    }
+
     public void PauseRound()
     {
         PauseTimer();
@@ -189,7 +222,7 @@ public class RoundManager : MonoBehaviour
     public void ResetRounds()
     {
         currentRoundNum = 1;
-        UpdateRound(currentRoundNum);
+        UpdateRoundNumber(currentRoundNum);
     }
 
     // Wanted Poster Methods
@@ -211,14 +244,29 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    public void ClearWantedPoster()
+    {
+        if (wantedPersonPoster.childCount > 1)
+        {
+            for (int i = 1; i < wantedPersonPoster.childCount; i++)
+            {
+                GameObject attributeToDestroy = wantedPersonPoster.GetChild(i).gameObject;
+                Destroy(attributeToDestroy);
+            }
+        }
+    }
+
     public PersonDocument GetWantedPerson()
     {
         foreach (GameObject person in peopleList)
         {
-            PersonDocument personInstance = person.GetComponent<PersonDocument>();
-            if (personInstance.GetWantedStatus() == true)
+            if (person != null)
             {
-                return personInstance;
+                PersonDocument personInstance = person.GetComponent<PersonDocument>();
+                if (personInstance.GetWantedStatus() == true)
+                {
+                    return personInstance;
+                }
             }
         }
 
@@ -226,10 +274,8 @@ public class RoundManager : MonoBehaviour
         return null;
     }
 
-    public void UpdateRound(int round)
-    {
-        roundNumberText.text = round.ToString();
-    }
+    // People Methods
+    ////////////////////
 
     /// <summary>
     /// Clears the list of people, and deletes all of them.
@@ -238,7 +284,11 @@ public class RoundManager : MonoBehaviour
     {
         foreach (GameObject person in peopleList)
         {
-            Destroy(person);
+            if (person != null)
+            {
+                Destroy(person);
+            }
+            // Destroy(person);
         }
         peopleList.Clear();
     }
@@ -247,8 +297,11 @@ public class RoundManager : MonoBehaviour
     {
         foreach (GameObject person in peopleList)
         {
-            PersonDocument personInstance = person.GetComponent<PersonDocument>();
-            personInstance.canBeClicked = false;
+            if (person != null)
+            {
+                PersonDocument personInstance = person.GetComponent<PersonDocument>();
+                personInstance.canBeClicked = false;
+            }
         }
     }
 
@@ -314,4 +367,9 @@ public class RoundManager : MonoBehaviour
     {
         return roundTimeLeft;
     }
+
+    // public void StartDelayBetweenRounds()
+    // {
+        
+    // }
 }
