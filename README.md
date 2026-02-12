@@ -5,6 +5,6 @@ This is the GitHub repository for the game, "Dead Or Alive", a fast paced "Guess
 * C#
 * Unity 2D
 
-## Playing ##
+## Link To Game ##
 Link: https://rakedu.itch.io/dead-or-alive
 
