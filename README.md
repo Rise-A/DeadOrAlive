@@ -8,3 +8,6 @@ This is the GitHub repository for the game, "Dead Or Alive", a fast paced "Guess
 ## Link To Game ##
 Link: https://rakedu.itch.io/dead-or-alive
 
+## License ##
+MIT License
+<br>See the LICENSE file for more details.
